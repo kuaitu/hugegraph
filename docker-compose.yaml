@@ -1,0 +1,33 @@
+version: "3.0"
+
+services:
+  server:
+    container_name: server
+    build: ./server
+    image: hugegraph-server:0.10.4
+    restart: always
+    volumes:
+      - rocksdb-data:/root/hugegraph-server/rocksdb-data
+    networks:
+      - db
+
+  studio:
+    container_name: studio
+    build: ./studio
+    image: hugegraph-studio:0.10.0
+    ports:
+      - 18088:8088
+    restart: always
+    links:
+      - server:hugegraph-server
+    depends_on:
+      - server
+    networks:
+      - db
+
+volumes:
+  rocksdb-data:
+
+networks:
+  db:
+    driver: bridge

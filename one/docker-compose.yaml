@@ -1,0 +1,17 @@
+version: "2.0"
+
+services:
+  graph:
+    container_name: graph
+    build: .
+    image: hugegraph:0.10
+    ports:
+      - "18088:8088"
+      - "18080:8080"
+    restart: always
+    networks:
+      - db
+
+networks:
+  db:
+    driver: bridge
